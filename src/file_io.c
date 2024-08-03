@@ -49,9 +49,9 @@ int processInputOutput(const char *inputFileName, char strategy) {
     }
 
     if (strategy == 'S') {
-        shift_and_with_indices(text, pattern, num_intervals, intervals); // Solução Shift-And
+        shift_and_with_indices(text, pattern, num_intervals, intervals, outputFile); // Solução Shift-And
     } else {
-        boyer_moore_with_indices(text, pattern, num_intervals, intervals); // Solução Boyer-Moore
+        boyer_moore_with_indices(text, pattern, num_intervals, intervals, outputFile); // Solução Boyer-Moore
     }
 
     fclose(outputFile);

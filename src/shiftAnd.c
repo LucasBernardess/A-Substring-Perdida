@@ -4,8 +4,7 @@
 
 #define MAX_CHAR 256
 
-void shift_and_with_indices(const char *text, const char *pattern, int num_intervals, int intervals[][2]) {
-    printf("SHIFT AND\n");
+void shift_and_with_indices(const char *text, const char *pattern, int num_intervals, int intervals[][2], FILE *outputFile) {
     int m = strlen(pattern);
     int n = strlen(text);
     uint32_t B[MAX_CHAR] = {0};
@@ -35,10 +34,9 @@ void shift_and_with_indices(const char *text, const char *pattern, int num_inter
             }
         }
         if (found) {
-            printf("sim\n");
+            fprintf(outputFile, "sim\n");
         } else {
-            printf("nao\n");
+            fprintf(outputFile, "nao\n");
         }
     }
 }
-

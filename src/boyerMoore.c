@@ -16,8 +16,7 @@ int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
-void boyer_moore_with_indices(char *text, char *pattern, int num_intervals, int intervals[][2]) {
-    printf("Boyer Moore\n");
+void boyer_moore_with_indices(char *text, char *pattern, int num_intervals, int intervals[][2], FILE *outputFile) {
     int m = strlen(pattern);
     int n = strlen(text);
     int badchar[NO_OF_CHARS];
@@ -53,10 +52,9 @@ void boyer_moore_with_indices(char *text, char *pattern, int num_intervals, int 
             }
         }
         if (found) {
-            printf("sim\n");
+            fprintf(outputFile, "sim\n");
         } else {
-            printf("nao\n");
+            fprintf(outputFile, "nao\n");
         }
     }
 }
-
