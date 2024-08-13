@@ -6,7 +6,7 @@
 #include "../include/time.h"
 #include "../include/file_io.h"
 #include "../include/boyerMoore.h"
-#include "../include/shiftand.h"
+#include "kmp.h"
 
 int main(int argc, char *argv[]) {
     struct timeval start, end;
@@ -22,8 +22,8 @@ int main(int argc, char *argv[]) {
     strategy = argv[1][0];
     inputFileName = argv[2];
 
-    if (strategy != 'S' && strategy != 'B') {
-        fprintf(stderr, "Estratégia inválida! Use 'S' para Shift-And ou 'B' para Boyer-Moore.\n");
+    if (strategy != 'S' && strategy != 'K' ) {
+        fprintf(stderr, "Estratégia inválida! Use 'K' para KMP ou 'B' para Boyer-Moore.\n");
         return EXIT_FAILURE;
     }
 

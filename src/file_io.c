@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../include/file_io.h"
 #include "../include/boyerMoore.h"
-#include "../include/shiftand.h"
+#include "../include/kmp.h"
 
 int processInputOutput(const char *inputFileName, char strategy) {
     
@@ -48,10 +48,10 @@ int processInputOutput(const char *inputFileName, char strategy) {
         return 0;
     }
 
-    if (strategy == 'S') {
-        shift_and_with_indices(text, pattern, num_intervals, intervals, outputFile); // Solução Shift-And
-    } else {
-        boyer_moore_with_indices(text, pattern, num_intervals, intervals, outputFile); // Solução Boyer-Moore
+    if (strategy == 'B') {
+        boyer_moore_with_indices(text, pattern, num_intervals, intervals, outputFile); // Solução Shift-And
+    }else if(strategy == 'K') {
+        kmpComIndices(text, pattern, num_intervals, intervals, outputFile);
     }
 
     fclose(outputFile);
