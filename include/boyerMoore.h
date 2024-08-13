@@ -3,8 +3,7 @@
 
 #define NO_OF_CHARS 256
 
-void badCharHeuristic(char *str, int size, int badchar[NO_OF_CHARS]);
-int max(int a, int b);
-void boyer_moore_with_indices(char *text, char *pattern, int num_intervals, int intervals[][2], FILE *outputFile);
+void boyer_moore_horspool(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida);
+void calcularBadCharShift(char *padrao, int tamanhoPadrao, int badCharShift[NO_OF_CHARS]);
 
 #endif

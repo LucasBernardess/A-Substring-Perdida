@@ -2,59 +2,57 @@
 #include <string.h>
 #include "boyerMoore.h"
 
-void badCharHeuristic(char *str, int size, int badchar[NO_OF_CHARS]) {
-    int i;
-    for (i = 0; i < NO_OF_CHARS; i++) {
-        badchar[i] = -1;
+#define NO_OF_CHARS 256 
+
+void calcularBadCharShift(char *padrao, int tamanhoPadrao, int badCharShift[NO_OF_CHARS]) {
+    for (int i = 0; i < NO_OF_CHARS; i++) {
+        badCharShift[i] = tamanhoPadrao;
     }
-    for (i = 0; i < size; i++) {
-        badchar[(int)str[i]] = i;
+    for (int i = 0; i < tamanhoPadrao - 1; i++) {
+        badCharShift[(int)padrao[i]] = tamanhoPadrao - 1 - i;
     }
 }
 
-int max(int a, int b) {
-    return (a > b) ? a : b;
-}
+void boyer_moore_horspool(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
+    int tamanhoPadrao = strlen(padrao);
+    int tamanhoTexto = strlen(texto);
+    int badCharShift[NO_OF_CHARS];
 
-void boyer_moore_with_indices(char *text, char *pattern, int num_intervals, int intervals[][2], FILE *outputFile) {
-    int m = strlen(pattern);
-    int n = strlen(text);
-    int badchar[NO_OF_CHARS];
-    badCharHeuristic(pattern, m, badchar);
+    calcularBadCharShift(padrao, tamanhoPadrao, badCharShift);
     
-    int match_positions[n];
-    int match_count = 0;
+    int posicoesCasamento[tamanhoTexto];
+    int quantidadeCasamentos = 0;
 
-    int s = 0;
-    while (s <= (n - m)) {
-        int j = m - 1;
+    int posicao = 0; 
+    while (posicao <= (tamanhoTexto - tamanhoPadrao)) {
+        int j = tamanhoPadrao - 1;
 
-        while (j >= 0 && pattern[j] == text[s + j]) {
+        while (j >= 0 && padrao[j] == texto[posicao + j]) {
             j--;
         }
 
         if (j < 0) {
-            match_positions[match_count++] = s;
-            s += (s + m < n) ? m - badchar[(unsigned char)text[s + m]] : 1;
+            posicoesCasamento[quantidadeCasamentos++] = posicao;
+            posicao += (posicao + tamanhoPadrao < tamanhoTexto) ? badCharShift[(unsigned char)texto[posicao + tamanhoPadrao]] : 1;
         } else {
-            s += max(1, j - badchar[(unsigned char)text[s + j]]);
+            posicao += badCharShift[(unsigned char)texto[posicao + j]];
         }
     }
 
-    for (int k = 0; k < num_intervals; k++) {
-        int start = intervals[k][0] - 1;
-        int end = intervals[k][1] - 1;
-        int found = 0;
-        for (int i = 0; i < match_count; i++) {
-            if (match_positions[i] >= start && match_positions[i] <= end - m + 1) {
-                found = 1;
+    for (int i = 0; i < numeroIntervalos; i++) {
+        int inicio = intervalos[i][0] - 1;
+        int fim = intervalos[i][1] - 1;
+        int encontrado = 0;
+        for (int j = 0; j < quantidadeCasamentos; j++) {
+            if (posicoesCasamento[j] >= inicio && posicoesCasamento[j] <= fim - tamanhoPadrao + 1) {
+                encontrado = 1;
                 break;
             }
         }
-        if (found) {
-            fprintf(outputFile, "sim\n");
+        if (encontrado) {
+            fprintf(arquivoSaida, "sim\n");
         } else {
-            fprintf(outputFile, "nao\n");
+            fprintf(arquivoSaida, "nao\n");
         }
     }
 }

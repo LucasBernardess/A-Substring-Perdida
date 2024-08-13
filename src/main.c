@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     strategy = argv[1][0];
     inputFileName = argv[2];
 
-    if (strategy != 'S' && strategy != 'K' ) {
+    if (strategy != 'B' && strategy != 'K' ) {
         fprintf(stderr, "Estratégia inválida! Use 'K' para KMP ou 'B' para Boyer-Moore.\n");
         return EXIT_FAILURE;
     }
