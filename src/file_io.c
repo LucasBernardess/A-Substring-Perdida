@@ -86,9 +86,9 @@ int processInputOutput(const char *inputFileName, char strategy) {
 
     // Executa o algoritmo de busca baseado na estratégia escolhida
     if (strategy == 'B') {
-        bmhComIndices(text, pattern, num_intervals, intervals, outputFile);
+        bmhWithIndices(text, pattern, num_intervals, intervals, outputFile);
     } else if (strategy == 'K') {
-        kmpComIndices(text, pattern, num_intervals, intervals, outputFile);
+        kmpWithIndices(text, pattern, num_intervals, intervals, outputFile);
     }
 
     // Fecha o arquivo de saída após a escrita

@@ -2,7 +2,7 @@
 #include <string.h>
 
 // Função que constrói a tabela de falhas para o algoritmo KMP
-void construirTabelaFalhas(char *padrao, int tamanhoPadrao, int *tabelaFalhas) {
+void buildFaultTable(char *padrao, int tamanhoPadrao, int *tabelaFalhas) {
     int comprimentoPrefixo = 0;
     tabelaFalhas[0] = 0;
     int indice = 1;
@@ -25,12 +25,12 @@ void construirTabelaFalhas(char *padrao, int tamanhoPadrao, int *tabelaFalhas) {
 }
 
 // Função que executa o algoritmo KMP e verifica a ocorrência do padrão dentro dos intervalos
-void kmpComIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
+void kmpWithIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
     int tamanhoTexto = strlen(texto);
     int tamanhoPadrao = strlen(padrao);
 
     int tabelaFalhas[tamanhoPadrao]; 
-    construirTabelaFalhas(padrao, tamanhoPadrao, tabelaFalhas);
+    buildFaultTable(padrao, tamanhoPadrao, tabelaFalhas);
 
     int posicoesCasamento[tamanhoTexto];
     int quantidadeCasamentos = 0;

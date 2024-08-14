@@ -4,7 +4,7 @@
 #define MAX_ALFABETO 256
 
 // Função para pré-processar o padrão, construindo a tabela de deslocamento para o algoritmo BMH
-void preprocessarDeslocamento(char *padrao, int tamanhoPadrao, int deslocamento[MAX_ALFABETO]) {
+void preprocessShift(char *padrao, int tamanhoPadrao, int deslocamento[MAX_ALFABETO]) {
     for (int i = 0; i < MAX_ALFABETO; i++) {
         deslocamento[i] = tamanhoPadrao;
     }
@@ -14,11 +14,11 @@ void preprocessarDeslocamento(char *padrao, int tamanhoPadrao, int deslocamento[
 }
 
 // Função que executa o algoritmo Boyer-Moore-Horspool e verifica a ocorrência do padrão dentro dos intervalos
-void bmhComIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
+void bmhWithIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
     int tamanhoPadrao = strlen(padrao);
 
     int deslocamento[MAX_ALFABETO];
-    preprocessarDeslocamento(padrao, tamanhoPadrao, deslocamento);
+    preprocessShift(padrao, tamanhoPadrao, deslocamento);
 
     // Processa cada intervalo especificado
     for (int i = 0; i < numeroIntervalos; i++) {
