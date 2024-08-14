@@ -78,7 +78,7 @@ int processInputOutput(const char *inputFileName, char strategy) {
     }
 
     if (strategy == 'B') {
-        boyer_moore_horspool(text, pattern, num_intervals, intervals, outputFile);
+        bmhComIndices(text, pattern, num_intervals, intervals, outputFile);
     } else if (strategy == 'K') {
         kmpComIndices(text, pattern, num_intervals, intervals, outputFile);
     }
