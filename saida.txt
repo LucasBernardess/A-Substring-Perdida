@@ -1,6 +1,4 @@
-nao
-nao
+sim
 sim
 nao
 nao
-sim
