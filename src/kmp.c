@@ -22,7 +22,6 @@ void construirTabelaFalhas(char *padrao, int tamanhoPadrao, int *tabelaFalhas) {
     }
 }
 
-
 void kmpComIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
     int tamanhoTexto = strlen(texto);
     int tamanhoPadrao = strlen(padrao);
@@ -53,7 +52,6 @@ void kmpComIndices(char *texto, char *padrao, int numeroIntervalos, int interval
         }
     }
 
-    // Verifica os intervalos
     for (int i = 0; i < numeroIntervalos; i++) {
         int inicio = intervalos[i][0] - 1;
         int fim = intervalos[i][1] - 1;
