@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/file_io.h"
-#include "../include/boyerMoore.h"
+#include "../include/boyer_moore.h"
 #include "../include/kmp.h"
 
 int processInputOutput(const char *inputFileName, char strategy) {

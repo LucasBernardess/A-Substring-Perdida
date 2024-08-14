@@ -1,5 +1,5 @@
-#ifndef BOYERMOORE_H
-#define BOYERMOORE_H
+#ifndef BOYER_MOORE_H
+#define BOYER_MOORE_H
 
 #define MAX_ALFABETO 256
 

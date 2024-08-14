@@ -4,6 +4,7 @@
 #include <sys/resource.h>
 #include "../include/time.h"
 
+// Função para calcular e exibir o tempo de execução do programa
 void calculateExecutionTime(struct timeval start, struct timeval end, struct rusage usageStart, struct rusage usageEnd) {
     double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
     double userTime = (usageEnd.ru_utime.tv_sec - usageStart.ru_utime.tv_sec) +
