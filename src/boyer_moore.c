@@ -1,57 +1,57 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_ALFABETO 256
+#define MAX_ALPHABET 256
 
 // Função para pré-processar o padrão, construindo a tabela de deslocamento para o algoritmo BMH
-void preprocessShift(char *padrao, int tamanhoPadrao, int deslocamento[MAX_ALFABETO]) {
-    for (int i = 0; i < MAX_ALFABETO; i++) {
-        deslocamento[i] = tamanhoPadrao;
+void preprocessShift(char *pattern, int patternLength, int shiftTable[MAX_ALPHABET]) {
+    for (int i = 0; i < MAX_ALPHABET; i++) {
+        shiftTable[i] = patternLength;
     }
-    for (int i = 0; i < tamanhoPadrao - 1; i++) {
-        deslocamento[(unsigned char)padrao[i]] = tamanhoPadrao - 1 - i;
+    for (int i = 0; i < patternLength - 1; i++) {
+        shiftTable[(unsigned char)pattern[i]] = patternLength - 1 - i;
     }
 }
 
 // Função que executa o algoritmo Boyer-Moore-Horspool e verifica a ocorrência do padrão dentro dos intervalos
-void bmhWithIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
-    int tamanhoPadrao = strlen(padrao);
+void bmhWithIndices(char *text, char *pattern, int numberOfIntervals, int intervals[][2], FILE *outputFile) {
+    int patternLength = strlen(pattern);
 
-    int deslocamento[MAX_ALFABETO];
-    preprocessShift(padrao, tamanhoPadrao, deslocamento);
+    int shiftTable[MAX_ALPHABET];
+    preprocessShift(pattern, patternLength, shiftTable);
 
     // Processa cada intervalo especificado
-    for (int i = 0; i < numeroIntervalos; i++) {
-        int inicio = intervalos[i][0] - 1;
-        int fim = intervalos[i][1] - 1;
+    for (int i = 0; i < numberOfIntervals; i++) {
+        int start = intervals[i][0] - 1;
+        int end = intervals[i][1] - 1;
 
-        int encontrado = 0;
-        int j = inicio + tamanhoPadrao - 1;
+        int found = 0;
+        int j = start + patternLength - 1;
 
         // Executa a busca no intervalo
-        while (j <= fim) {
+        while (j <= end) {
             int k = j;
-            int l = tamanhoPadrao - 1;
+            int l = patternLength - 1;
             // Compara o padrão com o texto de trás para frente
-            while (l >= 0 && texto[k] == padrao[l]) {
+            while (l >= 0 && text[k] == pattern[l]) {
                 k--;
                 l--;
             }
             // Se o padrão foi encontrado, interrompe a busca
             if (l < 0) {
-                encontrado = 1;
+                found = 1;
                 break;
             } else {
                 // Desloca o índice de acordo com a tabela de deslocamento
-                j += deslocamento[(unsigned char)texto[j]];
+                j += shiftTable[(unsigned char)text[j]];
             }
         }
 
         // Escreve o resultado no arquivo de saída
-        if (encontrado) {
-            fprintf(arquivoSaida, "sim\n");
+        if (found) {
+            fprintf(outputFile, "sim\n");
         } else {
-            fprintf(arquivoSaida, "nao\n");
+            fprintf(outputFile, "não\n");
         }
     }
 }

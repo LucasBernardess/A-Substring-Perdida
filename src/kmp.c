@@ -2,76 +2,76 @@
 #include <string.h>
 
 // Função que constrói a tabela de falhas para o algoritmo KMP
-void buildFaultTable(char *padrao, int tamanhoPadrao, int *tabelaFalhas) {
-    int comprimentoPrefixo = 0;
-    tabelaFalhas[0] = 0;
-    int indice = 1;
+void buildFailureTable(char *pattern, int patternLength, int *failureTable) {
+    int prefixLength = 0;
+    failureTable[0] = 0;
+    int index = 1;
 
     // Preenche a tabela de falhas baseada nos prefixos do padrão
-    while (indice < tamanhoPadrao) {
-        if (padrao[indice] == padrao[comprimentoPrefixo]) {
-            comprimentoPrefixo++;
-            tabelaFalhas[indice] = comprimentoPrefixo;
-            indice++;
+    while (index < patternLength) {
+        if (pattern[index] == pattern[prefixLength]) {
+            prefixLength++;
+            failureTable[index] = prefixLength;
+            index++;
         } else {
-            if (comprimentoPrefixo != 0) {
-                comprimentoPrefixo = tabelaFalhas[comprimentoPrefixo - 1];
+            if (prefixLength != 0) {
+                prefixLength = failureTable[prefixLength - 1];
             } else {
-                tabelaFalhas[indice] = 0;
-                indice++;
+                failureTable[index] = 0;
+                index++;
             }
         }
     }
 }
 
 // Função que executa o algoritmo KMP e verifica a ocorrência do padrão dentro dos intervalos
-void kmpWithIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida) {
-    int tamanhoTexto = strlen(texto);
-    int tamanhoPadrao = strlen(padrao);
+void kmpWithIndices(char *text, char *pattern, int numberOfIntervals, int intervals[][2], FILE *outputFile) {
+    int textLength = strlen(text);
+    int patternLength = strlen(pattern);
 
-    int tabelaFalhas[tamanhoPadrao]; 
-    buildFaultTable(padrao, tamanhoPadrao, tabelaFalhas);
+    int failureTable[patternLength]; 
+    buildFailureTable(pattern, patternLength, failureTable);
 
-    int posicoesCasamento[tamanhoTexto];
-    int quantidadeCasamentos = 0;
-    int indiceTexto = 0;
-    int indicePadrao = 0;
+    int matchPositions[textLength];
+    int matchCount = 0;
+    int textIndex = 0;
+    int patternIndex = 0;
 
     // Executa a busca do padrão no texto
-    while (indiceTexto < tamanhoTexto) {
-        if (padrao[indicePadrao] == texto[indiceTexto]) {
-            indiceTexto++;
-            indicePadrao++;
+    while (textIndex < textLength) {
+        if (pattern[patternIndex] == text[textIndex]) {
+            textIndex++;
+            patternIndex++;
         }
 
         // Padrão encontrado, salva a posição e ajusta o índice do padrão usando a tabela de falhas
-        if (indicePadrao == tamanhoPadrao) {
-            posicoesCasamento[quantidadeCasamentos++] = indiceTexto - indicePadrao;
-            indicePadrao = tabelaFalhas[indicePadrao - 1];
-        } else if (indiceTexto < tamanhoTexto && padrao[indicePadrao] != texto[indiceTexto]) {
-            if (indicePadrao != 0) {
-                indicePadrao = tabelaFalhas[indicePadrao - 1];
+        if (patternIndex == patternLength) {
+            matchPositions[matchCount++] = textIndex - patternIndex;
+            patternIndex = failureTable[patternIndex - 1];
+        } else if (textIndex < textLength && pattern[patternIndex] != text[textIndex]) {
+            if (patternIndex != 0) {
+                patternIndex = failureTable[patternIndex - 1];
             } else {
-                indiceTexto++;
+                textIndex++;
             }
         }
     }
 
     // Verifica se as posições encontradas estão dentro dos intervalos especificados
-    for (int i = 0; i < numeroIntervalos; i++) {
-        int inicio = intervalos[i][0] - 1;
-        int fim = intervalos[i][1] - 1;
-        int encontrado = 0;
-        for (int j = 0; j < quantidadeCasamentos; j++) {
-            if (posicoesCasamento[j] >= inicio && posicoesCasamento[j] <= fim - tamanhoPadrao + 1) {
-                encontrado = 1;
+    for (int i = 0; i < numberOfIntervals; i++) {
+        int start = intervals[i][0] - 1;
+        int end = intervals[i][1] - 1;
+        int found = 0;
+        for (int j = 0; j < matchCount; j++) {
+            if (matchPositions[j] >= start && matchPositions[j] <= end - patternLength + 1) {
+                found = 1;
                 break;
             }
         }
-        if (encontrado) {
-            fprintf(arquivoSaida, "sim\n");
+        if (found) {
+            fprintf(outputFile, "sim\n");
         } else {
-            fprintf(arquivoSaida, "nao\n");
+            fprintf(outputFile, "não\n");
         }
     }
 }

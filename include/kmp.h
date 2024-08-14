@@ -1,8 +1,7 @@
 #ifndef KMP_H
 #define KMP_H
 
-void kmpWithIndices(char *texto, char *padrao, int numeroIntervalos, int intervalos[][2], FILE *arquivoSaida);
-void buildFaultTable(char *padrao, int tamanhoPadrao, int *tabelaFalhas);
-
+void kmpWithIndices(char *text, char *pattern, int numberOfIntervals, int intervals[][2], FILE *outputFile);
+void buildFailureTable(char *pattern, int patternLength, int *failureTable);
 
 #endif
