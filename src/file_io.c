@@ -54,7 +54,7 @@ int processInputOutput(const char *inputFileName, char strategy) {
     }
 
     // Verifica se o número de intervalos é válido
-    if (num_intervals < 0 || num_intervals > 100) {
+    if (num_intervals < 0) {
         fprintf(stderr, "Valor fora do intervalo permitido: %d\n", num_intervals);
         free(text);
         free(pattern);
