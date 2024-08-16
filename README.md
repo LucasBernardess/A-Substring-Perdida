@@ -11,7 +11,7 @@ make
 - Após a compilação, execute com:
 
 ./tp3 <estrategia> <arquivo_de_entrada>
-- Obs.: Use 'K' para KMP ou 'B' para Boyer-Moore, na estratégia.
+- Obs.: Use 'K' para KMP ou 'B' para Boyer-Moore-Horspool, na estratégia.
 
 ## Limpeza
 - Para limpar objetos e binários:
